@@ -1,3 +1,6 @@
 [submodule "Plugins/ReactUMG"]
 	path = Plugins/ReactUMG
 	url = https://github.com/puerts/ReactUMG.git
+[submodule "Plugins/Puerts"]
+	path = Plugins/Puerts
+	url = https://github.com/Civitasv/puerts.git

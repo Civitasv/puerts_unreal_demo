@@ -4,7 +4,9 @@
 
 * git clone --recursive https://github.com/chexiongsheng/puerts_unreal_demo.git 
 
-* ue4.25及以上版本，需要根据[文档](https://puerts.github.io/docs/puerts/unreal/install)下载安装v8
+* ue4.25及以上版本，需要根据[文档](https://puerts.github.io/docs/puerts/unreal/install)下载安装v8。Puerts插件以submodule的形式放在`Plugins/Puerts`，插件本体在`Plugins/Puerts/unreal/Puerts`，v8要解压到`Plugins/Puerts/unreal/Puerts/ThirdParty`下
+
+* 由于插件多嵌套了两层，编译时JsEnv.Build.cs不会把插件的`Content`、`Typing`同步到本工程（会拷到`Plugins/Puerts`根目录）。本工程已提交与submodule版本对应的拷贝，更新submodule后需要手动同步：`cp -r Plugins/Puerts/unreal/Puerts/Content/. Content/ && cp -r Plugins/Puerts/unreal/Puerts/Typing/. Typing/`
 
 * 生成vs工程（window下，在mac下生成xcode工程），然后进入工程编译
 
