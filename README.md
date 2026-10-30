@@ -1,5 +1,33 @@
 # unreal demo for puerts
 
+## 复现：增量生成的 ue_bp.d.ts 引用已不存在的蓝图类型
+
+本分支用于复现 Puerts.Gen 增量生成蓝图声明时，缓存块引用了本次未生成的类型，导致 ue_bp.d.ts 无法通过 TS 编译的问题。
+
+本分支相对 master 的改动：
+
+* 删除了 `Content/StarterContent/MixinSuperTestBase.uasset`（模拟版本控制删除资源、内容插件被禁用等情况），`MixinSuperTestDerived`（父类是 MixinSuperTestBase）保持不变；
+* `Typing/ue/ue_bp.d.ts` 是删除前用 submodule 中的 puerts 生成的结果，作为增量生成的缓存；
+* `EngineAssociation` 为 5.8（复现时使用的引擎版本）。
+
+步骤：
+
+1. `git clone --recursive -b repro/bp-decl-stale-reference https://github.com/Civitasv/puerts_unreal_demo.git`，按下文“怎么跑这demo”安装 v8 并编译；
+2. 打开编辑器（提示 MixinSuperTestDerived 父类丢失属预期，不要修复或保存它），在控制台执行 `Puerts.Gen`；
+3. 在工程根目录执行：
+
+   ~~~
+   npx -p typescript@5 tsc --noEmit --experimentalDecorators --target esnext Typing/puerts/index.d.ts Typing/cpp/index.d.ts Typing/ffi/index.d.ts Typing/ue/index.d.ts
+   ~~~
+
+   期望没有错误，实际：
+
+   ~~~
+   Typing/ue/ue_bp.d.ts(11,70): error TS2339: Property 'MixinSuperTestBase' does not exist on type 'typeof StarterContent'.
+   ~~~
+
+   生成的 `MixinSuperTestDerived_C` 仍然 `extends UE.Game.StarterContent.MixinSuperTestBase.MixinSuperTestBase_C`，而 MixinSuperTestBase 的声明已经不存在。
+
 ## 怎么跑这demo？
 
 * git clone --recursive https://github.com/chexiongsheng/puerts_unreal_demo.git 
