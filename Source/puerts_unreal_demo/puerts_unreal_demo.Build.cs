@@ -8,7 +8,7 @@ public class puerts_unreal_demo : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "JsEnv", "UMG", "Puerts" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "JsEnv", "ScriptEnv", "PapiV8", "UMG" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
